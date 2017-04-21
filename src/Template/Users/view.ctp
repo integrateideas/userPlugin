@@ -18,7 +18,7 @@
                                 <dt><?= __('Username') ?>:</dt> <dd> <?= h($user->username) ?> </dd>
                                 <dt><?= __('Email') ?>:</dt> <dd> <?= h($user->email) ?> </dd>
                                 <dt><?= __('Phone') ?>:</dt> <dd> <?= h($user->phone) ?> </dd>
-                                <dt><?= __('Role') ?>:</dt> <dd> <?= h($user->role['label']) ?> </dd>
+                                <!-- <dt><?= __('Role') ?>:</dt> <dd> <?= h($user->role['label']) ?> </dd> -->
                                 <dt><?= __('Created') ?>:</dt> <dd> <?= h($user->created) ?> </dd>
                                 <dt><?= __('Modified') ?>:</dt> <dd><?= h($user->modified) ?></dd>
                                 <dt><?= __('Status') ?>:</dt> <dd><?= h($user->status)?'Enabled':'Disabled' ?></dd>

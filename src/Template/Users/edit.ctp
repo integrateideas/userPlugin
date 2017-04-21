@@ -7,13 +7,13 @@
         <div class="panel-body">
             <?= $this->Form->create($user, ['data-toggle'=>'validator','class' => 'form-horizontal', 'enctype'=>"multipart/form-data"]) ?>
             <?= $this->Form->hidden('userId',['value' => $user->id]);?>
-                <div class="hr-line-dashed"></div>
+                <!-- <div class="hr-line-dashed"></div>
                 <div class="form-group">
                     <?= $this->Form->label('name', __('Roles'), ['class' => ['col-sm-2', 'control-label']]); ?>
                     <div class="col-sm-10">
                        <?= $this->Form->input('role_id', ['label' => false, 'required' => true, 'class' => ['form-control']]); ?>
                     </div>
-                </div>
+                </div> -->
                 <div class="hr-line-dashed"></div>
                 <div class="form-group">
                 <?= $this->Form->label('first_name', __('First Name'), ['class' => ['col-sm-2', 'control-label']]); ?>

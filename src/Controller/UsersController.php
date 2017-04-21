@@ -21,9 +21,9 @@ class UsersController extends AppController
      * @return \Cake\Network\Response|null
      */
 
-    const SUPER_ADMIN_LABEL = 'admin';
-    const STAFF_ADMIN_LABEL = 'staff_admin';
-    const STAFF_MANAGER_LABEL = 'staff_manager';
+    // const SUPER_ADMIN_LABEL = 'admin';
+    // const STAFF_ADMIN_LABEL = 'staff_admin';
+    // const STAFF_MANAGER_LABEL = 'staff_manager';
 
     public function initialize(){
         parent::initialize();
@@ -33,22 +33,24 @@ class UsersController extends AppController
 
     public function index()
     {
-        $users = $this->Users->find('WithDisabled')->contain(['Roles'])->where(['Users.username !=' => 'admin'])->all();
-        $loggedInUser = $this->Auth->user();
-        if($loggedInUser['role']->name == self::SUPER_ADMIN_LABEL){      
-            $users = $this->Users->find('WithDisabled')->contain(['Roles'])->all();    
-            $roles = $this->Users->Roles->find('list')->where(['status'=>1])->all()->toArray();
-        }
-        else if($loggedInUser['role']->name == self::STAFF_ADMIN_LABEL){
-            $users = $this->Users->find('WithDisabled')->contain(['Roles'])->where(['Roles.name <>'=>self::SUPER_ADMIN_LABEL])->all();
-        }
-        else {
-            $users = $this->Users->find('WithDisabled')->contain(['Roles'])->where(['Roles.name'=>self::STAFF_MANAGER_LABEL])->all();
-            $roles = $this->Users->Roles->find('list')->where(['status'=>1,'name <>'=>'admin'])->all()->toArray();
-        }
+        // $users = $this->Users->find('WithDisabled')->contain(['Roles'])->where(['Users.username !=' => 'admin'])->all();
+        // $loggedInUser = $this->Auth->user();
+        // if($loggedInUser['role']->name == self::SUPER_ADMIN_LABEL){      
+        //     $users = $this->Users->find('WithDisabled')->contain(['Roles'])->all();    
+        //     $roles = $this->Users->Roles->find('list')->where(['status'=>1])->all()->toArray();
+        // }
+        // else if($loggedInUser['role']->name == self::STAFF_ADMIN_LABEL){
+        //     $users = $this->Users->find('WithDisabled')->contain(['Roles'])->where(['Roles.name <>'=>self::SUPER_ADMIN_LABEL])->all();
+        // }
+        // else {
+        //     $users = $this->Users->find('WithDisabled')->contain(['Roles'])->where(['Roles.name'=>self::STAFF_MANAGER_LABEL])->all();
+        //     $roles = $this->Users->Roles->find('list')->where(['status'=>1,'name <>'=>'admin'])->all()->toArray();
+        // }
+        $users = $this->Users->find('WithDisabled')->all();
+        // pr($users);die;
         $this->set(compact('users'));
         $this->set('_serialize', ['users']);
-        $this->set('loggedInUser', $loggedInUser);
+        // $this->set('loggedInUser', $loggedInUser);
     }
 
 
@@ -92,15 +94,15 @@ class UsersController extends AppController
           }
       }
 
-      $loggedInUser = $this->Auth->user();
-      if($loggedInUser['role']->name == self::SUPER_ADMIN_LABEL){
-          $roles = $this->Users->Roles->find('list')->where(['status'=>1])->all()->toArray();
-      }else {
-          $roles = $this->Users->Roles->find('list')->where(['status'=>1,'name <>'=>'admin'])->all()->toArray();
-      }
-      $this->set('roles', $roles);
+      // $loggedInUser = $this->Auth->user();
+      // if($loggedInUser['role']->name == self::SUPER_ADMIN_LABEL){
+      //     $roles = $this->Users->Roles->find('list')->where(['status'=>1])->all()->toArray();
+      // }else {
+      //     $roles = $this->Users->Roles->find('list')->where(['status'=>1,'name <>'=>'admin'])->all()->toArray();
+      // }
+      // $this->set('roles', $roles);
       $this->set('user', $user);
-      $this->set('loggedInUser', $loggedInUser);
+      // $this->set('loggedInUser', $loggedInUser);
       $this->set('_serialize', ['user']);
     }
 
@@ -127,16 +129,16 @@ class UsersController extends AppController
         }
         // $roles = $this->Users->Roles->find('list', ['limit' => 200]);
         $loggedInUser = $this->Auth->user();
-        if($loggedInUser['role']->name == self::SUPER_ADMIN_LABEL){
-            // $vendors = $this->Users->Vendors->find('list')->where(['status'=>1])->all()->toArray();
-            //pr($vendors); die();
-            $roles = $this->Users->Roles->find('list')->where(['status'=>1])->all()->toArray();
-            // $this->set('vendors', $vendors);
-        }else {
-            $roles = $this->Users->Roles->find('list')->where(['status'=>1,'name <>'=>'admin'])->all()->toArray();
-        }
+        // if($loggedInUser['role']->name == self::SUPER_ADMIN_LABEL){
+        //     // $vendors = $this->Users->Vendors->find('list')->where(['status'=>1])->all()->toArray();
+        //     //pr($vendors); die();
+        //     $roles = $this->Users->Roles->find('list')->where(['status'=>1])->all()->toArray();
+        //     // $this->set('vendors', $vendors);
+        // }else {
+        //     $roles = $this->Users->Roles->find('list')->where(['status'=>1,'name <>'=>'admin'])->all()->toArray();
+        // }
         $this->set('loggedInUser', $loggedInUser);
-        $this->set(compact('user', 'roles'));
+        $this->set(compact('user'));
         $this->set('_serialize', ['user']);
     }
 
@@ -162,33 +164,17 @@ class UsersController extends AppController
 
     public function login()
     {
-        // Layout for the admin login
-        // $this->viewBuilder()->layout('login-admin');
         if ($this->request->is('post')) {
             $user = $this->Auth->identify();
             if ($user) {
-                $this->loadModel('Roles');
-                $user['role'] = $query = $this->Roles->findById($user['role_id'])->select(['name', 'label'])->first();
                 $this->Auth->setUser($user);
         //Setup Session Data to Handle View Elements
                 $loggedInUser = $this->Auth->user();
                 $userId = $loggedInUser['id'];
-                if($loggedInUser['role']->name == self::STAFF_MANAGER_LABEL || $loggedInUser['role']->name == self::STAFF_ADMIN_LABEL){
                     $this->redirect(['controller' => 'Users',
                         'action' => 'index']);
-                }
-                else {
-                    $this->redirect(['controller' => 'Users',
-                        'action' => 'index'
-                        ]);
-                }
             }else{
                 $this->Flash->error(__('LOGIN_FAILED'));
-                if(empty($count)){
-                    $count = 1;
-                }else{
-                    $count++;
-                }
             }
         }
     }
