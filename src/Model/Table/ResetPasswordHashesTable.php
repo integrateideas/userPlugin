@@ -35,9 +35,9 @@ class ResetPasswordHashesTable extends Table
     {
         parent::initialize($config);
 
-        $this->setTable('reset_password_hashes');
-        $this->setDisplayField('id');
-        $this->setPrimaryKey('id');
+        $this->table('reset_password_hashes');
+        $this->displayField('id');
+        $this->primaryKey('id');
 
         $this->addBehavior('Timestamp');
 

@@ -37,9 +37,9 @@ class UserOldPasswordsTable extends Table
     {
         parent::initialize($config);
 
-        $this->setTable('user_old_passwords');
-        $this->setDisplayField('id');
-        $this->setPrimaryKey('id');
+        $this->table('user_old_passwords');
+        $this->displayField('id');
+        $this->primaryKey('id');
 
         $this->addBehavior('Timestamp');
 
