@@ -39,9 +39,9 @@ class UsersTable extends Table
     {
         parent::initialize($config);
 
-        $this->setTable('users');
-        $this->setDisplayField('id');
-        $this->setPrimaryKey('id');
+        $this->table('users');
+        $this->displayField('id');
+        $this->primaryKey('id');
 
         $this->addBehavior('Timestamp');
 
