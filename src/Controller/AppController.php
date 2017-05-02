@@ -7,8 +7,8 @@ use App\Controller\AppController as BaseController;
 class AppController extends BaseController
 {
 	const SUPER_ADMIN_LABEL = 'admin';
-    const STAFF_ADMIN_LABEL = 'staff_admin';
-    const STAFF_MANAGER_LABEL = 'staff_manager';
+    const MANAGEMENT_LABEL = 'staff_admin';
+    const EMPLOYEES_LABEL = 'staff_manager';
 
 	public function initialize()
     {

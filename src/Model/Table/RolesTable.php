@@ -22,7 +22,7 @@ use Cake\ORM\Behavior\TimestampBehavior;
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
-class ResetPasswordHashesTable extends Table
+class RolesTable extends Table
 {
 
     /**
@@ -35,16 +35,15 @@ class ResetPasswordHashesTable extends Table
     {
         parent::initialize($config);
 
-        $this->setTable('reset_password_hashes');
-        $this->setDisplayField('id');
-        $this->setPrimaryKey('id');
+        $this->table('roles');
+        $this->displayField('name');
+        $this->primaryKey('id');
 
         $this->addBehavior('Timestamp');
 
-        $this->belongsTo('Users', [
-            'foreignKey' => 'user_id',
-            'joinType' => 'INNER',
-            'className' => 'Integrateideas/User.Users'
+        $this->hasMany('Users', [
+            'foreignKey' => 'role_id',
+            'className' => 'Integrateideas/User.Roles'
         ]);
     }
 
@@ -61,8 +60,17 @@ class ResetPasswordHashesTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->requirePresence('hash', 'create')
-            ->notEmpty('hash');
+            ->requirePresence('name', 'create')
+            ->notEmpty('name');
+
+        $validator
+            ->requirePresence('label', 'create')
+            ->notEmpty('label');
+
+        $validator
+            ->boolean('status')
+            ->requirePresence('status', 'create')
+            ->notEmpty('status');
 
         return $validator;
     }
@@ -74,10 +82,13 @@ class ResetPasswordHashesTable extends Table
      * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
      * @return \Cake\ORM\RulesChecker
      */
-    public function buildRules(RulesChecker $rules)
+    public function findRolesByName(Query $query, array $options)
     {
-        $rules->add($rules->existsIn(['user_id'], 'Users'));
-
-        return $rules;
+        $role = $options['role'];
+        return $query->where(['name' => $role['name']]);
+    }
+    public function findRolesById(Query $query, array $options)
+    {
+        return $query->where(['id' => $options['role']]);
     }
 }

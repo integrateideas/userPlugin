@@ -42,6 +42,35 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <?= $this->fetch('/integrateideas/user/css') ?>
     <?= $this->fetch('/integrateideas/user/js/script') ?>
     <?= $this->Html->script('/integrateideas/user/js/super_admin') ?>
+
+    <script src='//cdn.tinymce.com/4/tinymce.min.js'></script>
+    <?= $this->Html->script(['/integrateideas/user/js/toastr.min.js']) ?>
+    <?= $this->Html->css('/integrateideas/user/css/toastr.min.css') ?>
+
+    <?= $this->Html->script('/integrateideas/user/js/jquery-2.1.1.js') ?>
+    <?= $this->Html->css('/integrateideas/user/css/style.css') ?>
+    <?= $this->Html->css('/integrateideas/user/css/fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css') ?>
+    <?= $this->Html->css('/integrateideas/user/css/bootstrap.min.css') ?>
+    <?= $this->Html->css('/integrateideas/user/css/plugins/metisMenu/dist/metisMenu.css') ?>
+    <?= $this->Html->css('/integrateideas/user/css/plugins/fontawesome/css/font-awesome.css') ?>
+    <?= $this->Html->css('/integrateideas/user/css/plugins/animate.css/animate.css') ?>
+    <?= $this->Html->script('/integrateideas/user/js/plugins/slimScroll/jquery.slimscroll.min.js') ?>
+    <?= $this->Html->script('/integrateideas/user/js/plugins/bootstrap/dist/js/bootstrap.min.js') ?>
+    <?= $this->Html->script('/integrateideas/user/js/inspinia.js') ?>
+    <?= $this->Html->script('/integrateideas/user/js/pace.min.js') ?>
+    <?= $this->Html->script('/integrateideas/user/js/jquery.metisMenu.js') ?>
+    <?= $this->Html->script('/integrateideas/user/js/super_admin') ?>
+    <?= $this->Html->script('/integrateideas/user/js/plugins/jquery/dist/jquery.min.js') ?>
+    <?= $this->Html->script('/integrateideas/user/js/plugins/jquery-ui/jquery-ui.min.js') ?>
+    <?= $this->Html->script('/integrateideas/user/js/plugins/jquery-flot/jquery.flot.js') ?>
+    <?= $this->Html->script('/integrateideas/user/js/plugins/jquery-flot/jquery.flot.resize.js') ?>
+    <?= $this->Html->script('/integrateideas/user/js/plugins/jquery-flot/jquery.flot.pie.js') ?>
+    <?= $this->Html->script('/integrateideas/user/js/plugins/flot.curvedlines/curvedLines.js') ?>
+    <?= $this->Html->script('/integrateideas/user/js/plugins/jquery.flot.spline/index.js') ?>
+    <?= $this->Html->script('/integrateideas/user/js/plugins/iCheck/icheck.min.js') ?>
+    <?= $this->Html->script('/integrateideas/user/js/plugins/peity/jquery.peity.min.js') ?>
+    <?= $this->Html->script('/integrateideas/user/js/plugins/sparkline/index.js') ?>
+    <?= $this->Html->script('/integrateideas/user/js/homer.js') ?>
 </head>
 <body>
     <nav class="top-bar expanded" data-topbar role="navigation">

@@ -1,7 +1,6 @@
 <?php
 namespace Integrateideas\User\Controller\Api;
 
-use Integrateideas\User\Controller\Api\ApiController;
 use Cake\Network\Exception\MethodNotAllowedException;
 use Cake\Network\Exception\BadRequestException;
 use Cake\Network\Exception\UnauthorizedException;
@@ -34,7 +33,6 @@ class UsersController extends ApiController
 			throw new MethodNotAllowedException(__('BAD_REQUEST'));
 		}
 		$data = $this->request->data;
-		// pr($data); die();
 		if(!isset($data['new_password'])){
 			throw new BadRequestException(__('MANDATORY_FIELD_MISSING','new_password'));
 		}
@@ -61,10 +59,6 @@ class UsersController extends ApiController
 		}
 		$password = $data['new_password'];
 		$oldPassword = $data['old_password'];
-// 		pr($oldPassword); 
-// pr($user->password);
-// 		die('old pass');
-
 
 		$hasher = new DefaultPasswordHasher();
 		// pr($hasher);die('here in hasher');
@@ -102,7 +96,7 @@ class UsersController extends ApiController
 			throw new BadRequestException(__('THREE_CONTIGUOUS_CHARACTERS','full name'));
 		}
 		$this->loadModel('UserOldPasswords');
-
+		$this->UserOldPasswords->addBehavior('Timestamp');
 		$userOldPasswordCheck = $this->UserOldPasswords->find('all')->where(['user_id'=>$id])->toArray();
 		foreach ($userOldPasswordCheck as $key => $value) {
 			if($hasher->check( $password,$value['password'])){
