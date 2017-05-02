@@ -66,8 +66,8 @@
 
                 <div class="form-group">
                     <div class="col-sm-8 col-sm-offset-2">
-                    <?= $this->Form->button(__('Submit'), ['id'=>'check_submit','class' => ['btn', 'btn-primary']]) ?>
-                    <?= $this->Html->link('Cancel',$this->request->referer(),['id'=>'check_cancel','class' => ['btn', 'btn-danger']]);?>
+                    <?= $this->Form->button(__('Submit'), ['class' => ['btn', 'btn-primary']]) ?>
+                    <?= $this->Html->link('Cancel', $this->request->referer(),['class' => ['btn', 'btn-danger']]);?>
                     </div>
                 </div>
             <?= $this->Form->end() ?>

@@ -2,6 +2,7 @@
 namespace Integrateideas\User\Controller;
 
 use Integrateideas\User\Controller\AppController;
+use Cake\Event\Event;
 use Cake\Network\Session;
 use Cake\Auth\DefaultPasswordHasher;
 use Cake\I18n\Time;
@@ -21,9 +22,9 @@ class UsersController extends AppController
      * @return \Cake\Network\Response|null
      */
 
-    // const SUPER_ADMIN_LABEL = 'admin';
-    // const STAFF_ADMIN_LABEL = 'staff_admin';
-    // const STAFF_MANAGER_LABEL = 'staff_manager';
+    const SUPER_ADMIN_LABEL = 'admin';
+    const MANAGEMENT_LABEL = 'manager';
+    const EMPLOYEES_LABEL = 'employee';
 
     public function initialize(){
         parent::initialize();
@@ -84,8 +85,15 @@ class UsersController extends AppController
             $user = $this->Users->patchEntity($user, $this->request->data);
             if(!$user->errors()){
             if ($this->Users->save($user)) {
-                $this->Flash->success(__('The user has been saved.'));
-                return $this->redirect(['action' => 'index']);
+              $this->Flash->success(__('The user has been saved.'));
+              $this->_fireEvent('registerUser', $user);
+              if($user['role_id'] == '1'){  
+                return $this->redirect('/users/adminDashboard');
+              }elseif ($user['role_id'] == '2') {
+                return $this->redirect('/users/managementDashboard');
+              }else{
+                return $this->redirect('/users/employeeDashboard');
+              }
             }else{
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
             }
@@ -94,15 +102,17 @@ class UsersController extends AppController
           }
       }
 
-      // $loggedInUser = $this->Auth->user();
-      // if($loggedInUser['role']->name == self::SUPER_ADMIN_LABEL){
-      //     $roles = $this->Users->Roles->find('list')->where(['status'=>1])->all()->toArray();
-      // }else {
-      //     $roles = $this->Users->Roles->find('list')->where(['status'=>1,'name <>'=>'admin'])->all()->toArray();
-      // }
-      // $this->set('roles', $roles);
+      $loggedInUser = $this->Auth->user();
+      if($loggedInUser['role']->name == self::SUPER_ADMIN_LABEL){
+          $roles = $this->Users->Roles->find('list')->where(['status'=>1])->all()->toArray();
+      }elseif ($loggedInUser['role']->name == self::MANAGEMENT_LABEL) {
+          $roles = $this->Users->Roles->find('list')->where(['status'=>1,'name <>'=>'admin'])->all()->toArray();
+      }else {
+        $roles = $this->Users->Roles->find('list')->where(['status'=>1,'name '=>'employee'])->all()->toArray();
+      }
+      $this->set('roles', $roles);
       $this->set('user', $user);
-      // $this->set('loggedInUser', $loggedInUser);
+      $this->set('loggedInUser', $loggedInUser);
       $this->set('_serialize', ['user']);
     }
 
@@ -127,16 +137,15 @@ class UsersController extends AppController
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
-        // $roles = $this->Users->Roles->find('list', ['limit' => 200]);
         $loggedInUser = $this->Auth->user();
-        // if($loggedInUser['role']->name == self::SUPER_ADMIN_LABEL){
-        //     // $vendors = $this->Users->Vendors->find('list')->where(['status'=>1])->all()->toArray();
-        //     //pr($vendors); die();
-        //     $roles = $this->Users->Roles->find('list')->where(['status'=>1])->all()->toArray();
-        //     // $this->set('vendors', $vendors);
-        // }else {
-        //     $roles = $this->Users->Roles->find('list')->where(['status'=>1,'name <>'=>'admin'])->all()->toArray();
-        // }
+        if($loggedInUser['role']->name == self::SUPER_ADMIN_LABEL){
+            $roles = $this->Users->Roles->find('list')->where(['status'=>1])->all()->toArray();
+        }elseif ($loggedInUser['role']->name == self::MANAGEMENT_LABEL) {
+            $roles = $this->Users->Roles->find('list')->where(['status'=>1,'name <>'=>'admin'])->all()->toArray();
+        }else {
+          $roles = $this->Users->Roles->find('list')->where(['status'=>1,'name '=>'employee'])->all()->toArray();
+        }
+  
         $this->set('loggedInUser', $loggedInUser);
         $this->set(compact('user'));
         $this->set('_serialize', ['user']);
@@ -167,12 +176,17 @@ class UsersController extends AppController
         if ($this->request->is('post')) {
             $user = $this->Auth->identify();
             if ($user) {
+                $this->loadModel('Roles');
+                $user['role'] = $query = $this->Roles->findById($user['role_id'])->select(['name', 'label'])->first();
                 $this->Auth->setUser($user);
-        //Setup Session Data to Handle View Elements
+                //Setup Session Data to Handle View Elements
                 $loggedInUser = $this->Auth->user();
                 $userId = $loggedInUser['id'];
-                    $this->redirect(['controller' => 'Users',
-                        'action' => 'index']);
+                $roleName = $loggedInUser['role']->name;
+                $className = '\App\Integrateideas\User\CustomRedirect';
+                $redirectUrl = new $className();
+                $redirectUrl = $redirectUrl->getRedirectUrl($roleName);
+                $this->redirect($redirectUrl);
             }else{
                 $this->Flash->error(__('LOGIN_FAILED'));
             }
@@ -204,9 +218,11 @@ class UsersController extends AppController
         $this->loadModel('ResetPasswordHashes');
         $hasher = new DefaultPasswordHasher();
         $reqData = ['user_id'=>$userId,'hash'=> $hasher->hash($uuid)];
-        $createPasswordhash = $this->ResetPasswordHashes->newEntity($reqData);
+        $this->ResetPasswordHashes->addBehavior('Timestamp');
+        $createPasswordhash = $this->ResetPasswordHashes->newEntity();
         $createPasswordhash = $this->ResetPasswordHashes->patchEntity($createPasswordhash,$reqData);
         if($this->ResetPasswordHashes->save($createPasswordhash)){
+
           return $createPasswordhash->hash;
       }else{
           pr($reqData->errors());die;
@@ -214,6 +230,7 @@ class UsersController extends AppController
   }
 
   public function forgotPassword(){
+
     if($this->Auth->user()){
       $this->Flash->error(__("UNAUTHORIZED_REQUEST"));
       $this->redirect(['action' => 'logout']);
@@ -229,7 +246,7 @@ class UsersController extends AppController
     $this->loadModel('ResetPasswordHashes');
     if(empty($checkExistPasswordHash)){
     $checkExistPasswordHash = $this->ResetPasswordHashes->find()->where(['user_id'=>$user->id])->first();
-        $resetPwdHash = $this->_createResetPasswordHash($user->id,$user->uuid);
+    $resetPwdHash = $this->_createResetPasswordHash($user->id,$user->uuid);
     }else{
         $resetPwdHash = $checkExistPasswordHash->hash;
         $time = new Time($checkExistPasswordHash->created);
@@ -238,19 +255,13 @@ class UsersController extends AppController
           $resetPwdHash =$this->_createResetPasswordHash($user->id,$user->uuid);
       }
   }
-  $url = Router::url('/integrateideas/user/', true);
-  $url = $url.'users/resetPassword?reset-token='.$resetPwdHash;
-  $email_send = new Email();
-  $email_send->setTo($user->email)
-  ->setSubject('Reset Password Link')
-  ->send($url);
+  $resetPwdHash = [$resetPwdHash,$email];
+  $this->_fireEvent('forgotPassword', $resetPwdHash);
   }
 }
 
 public function forceResetPassword()
   {
-    // pr('here');die;
-    // $this->viewBuilder()->layout('login-admin');
     $uuid = $this->request->query('reset-token');
     if ($this->request->is('get') && !$uuid) {
       $this->Flash->error(__('BAD_REQUEST'));
@@ -293,7 +304,9 @@ public function resetPassword(){
         return;
       }
       $this->loadModel('ResetPasswordHashes');
+      // $this->ResetPasswordHashes->addBehavior('Timestamp');
       $checkExistPasswordHash = $this->ResetPasswordHashes->find()->where(['hash'=>$uuid])->first();
+      // pr($checkExistPasswordHash);die;
       if(!$checkExistPasswordHash){
         $this->Flash->error(__('INVALID_RESET_PASSWORD'));
         $this->redirect(['action' => 'login']);
@@ -324,6 +337,7 @@ public function resetPassword(){
         return;
       }
       $fullname = $userUpdate->full_name;
+      // pr($fullname);die;  
       for( $i = 0; $i <= strlen($fullname)-3; $i++ ) {
         $char = substr( $fullname, $i, 3 );
         if(strpos($password,$char,0) !== false ){
@@ -338,6 +352,7 @@ public function resetPassword(){
       }
       $reqData = ['password'=>$password];
       $this->loadModel('UserOldPasswords');
+      $this->UserOldPasswords->addBehavior('Timestamp');
       $userOldPasswordCheck = $this->UserOldPasswords->find('all')->where(['user_id'=>$checkExistPasswordHash->user_id])->toArray();
       $hasher = new DefaultPasswordHasher();
       foreach ($userOldPasswordCheck as $key => $value) {
@@ -379,10 +394,18 @@ public function resetPassword(){
     $this->set('_serialize', ['reset-token']);
 }
 
-public function logout()
+    public function logout()
     {
         $user = $this->Auth->user();
         $this->redirect($this->Auth->logout());
         $this->Flash->success('You are now logged out.');
+    }
+
+    protected function _fireEvent($name, $data){
+        $name = 'PerformanceMonitoring.'.$name;
+        $event = new Event($name, $this, [
+                $name => $data
+            ]);
+        $this->eventManager()->dispatch($event);
     }
 }

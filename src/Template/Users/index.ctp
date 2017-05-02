@@ -8,7 +8,7 @@
                     <thead>
                     <tr>
                         <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-                        <!-- <th scope="col"><?= $this->Paginator->sort('role_id') ?></th> -->
+                        <th scope="col"><?= $this->Paginator->sort('role_id') ?></th>
                         <th scope="col"><?= $this->Paginator->sort('first_name') ?></th>
                         <th scope="col"><?= $this->Paginator->sort('last_name') ?></th>
                         <th scope="col"><?= $this->Paginator->sort('username') ?></th>
@@ -19,10 +19,10 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <?php foreach ($users as $user): ?>
+                    <?php foreach ($users as $key => $user): ?>
                         <tr>
-                            <td><?= $this->Number->format($user->id) ?></td>
-                            <!-- <td><?= $user->has('role') ? $this->Html->link($user->role->name, ['controller' => 'Roles', 'action' => 'view', $user->role->id]) : '' ?></td> -->
+                            <td><?= $this->Number->format($key+1) ?></td>
+                            <td><?= $user->has('role') ? $this->Html->link($user->role->name, ['controller' => 'Roles', 'action' => 'view', $user->role->id]) : '' ?></td>
                             <td><?= h($user->first_name) ?></td>
                             <td><?= h($user->last_name) ?></td>
                             <td><?= h($user->username) ?></td>

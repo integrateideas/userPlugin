@@ -45,13 +45,14 @@ class UsersTable extends Table
 
         $this->addBehavior('Timestamp');
 
-        $this->belongsTo('Roles', [
-            'foreignKey' => 'role_id',
-            'className' => 'Integrateideas/User.Roles'
-        ]);
         $this->hasMany('ResetPasswordHashes', [
             'foreignKey' => 'user_id',
             'className' => 'Integrateideas/User.ResetPasswordHashes'
+        ]);
+        $this->belongsTo('Roles', [
+            'foreignKey' => 'role_id',
+            'joinType' => 'INNER',
+            'className' => 'Integrateideas/User.Roles'
         ]);
         $this->hasMany('UserOldPasswords', [
             'foreignKey' => 'user_id',
@@ -105,7 +106,8 @@ class UsersTable extends Table
             ->boolean('status')
             ->requirePresence('status', 'create')
             ->notEmpty('status');
-
+        $validator
+            ->allowEmpty('role_id');
         return $validator;
     }
 
@@ -119,7 +121,6 @@ class UsersTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->isUnique(['username']));
-        //$rules->add($rules->isUnique(['email']));
         $rules->add($rules->existsIn(['role_id'], 'Roles'));
 
         return $rules;
