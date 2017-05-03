@@ -1,5 +1,7 @@
 <?php
 use Migrations\AbstractSeed;
+use Cake\Auth\DefaultPasswordHasher;
+use Cake\Utility\Text;
 
 /**
  * Roles seed.
@@ -29,8 +31,8 @@ class UsersSeed extends AbstractSeed
                       'uuid'=>Text::uuid(),
                       'phone'=> '9999999999',
                       'role_id'=>'1',
-                      'created' => '2016-06-15 10:01:27',
-                      'modified'=> '2016-06-15 10:01:27'
+                      'created' => '2017-04-20 10:01:27',
+                      'modified'=> '2017-04-20 10:01:27'
                       ]
                     
                      
