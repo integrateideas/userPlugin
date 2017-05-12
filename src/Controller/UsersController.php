@@ -88,12 +88,19 @@ class UsersController extends AppController
             if ($this->Users->save($user)) {
               $this->Flash->success(__('The user has been saved.'));
               $this->_fireEvent('registerUser', $user);
-              if($loggedInUser['role']->name == self::SUPER_ADMIN_LABEL){  
-                return $this->redirect('/users/adminDashboard');
-              }else{
-                return $this->redirect('/users/managementDashboard');
-              }
-            }else{
+              $userId = $loggedInUser['id'];
+              $roleName = $loggedInUser['role']->name;
+              $className = '\App\Integrateideas\User\CustomRedirect';
+              $redirectUrl = new $className();
+              $redirectUrl = $redirectUrl->getRedirectUrl($roleName);
+              $this->redirect($redirectUrl);
+              // if($loggedInUser['role']->name == self::SUPER_ADMIN_LABEL){  
+              //   return $this->redirect('/users/adminDashboard');
+              // }else{
+              //   return $this->redirect('/users/managementDashboard');
+              // }
+            }
+            else{
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
             }
           }else{
@@ -123,19 +130,26 @@ class UsersController extends AppController
      */
     public function edit($id = null)
     {
+        $loggedInUser = $this->Auth->user();
         $user = $this->Users->get($id, [
             'contain' => []
             ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $user = $this->Users->patchEntity($user, $this->request->data());
             if ($this->Users->save($user)) {
+                $userId = $loggedInUser['id'];
+                $roleName = $loggedInUser['role']->name;
+                $className = '\App\Integrateideas\User\CustomRedirect';
+                $redirectUrl = new $className();
+                $redirectUrl = $redirectUrl->getRedirectUrl($roleName);
+                $this->redirect($redirectUrl);
                 $this->Flash->success(__('The user has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
-        $loggedInUser = $this->Auth->user();
+        // $loggedInUser = $this->Auth->user();
         if($loggedInUser['role']->name == self::SUPER_ADMIN_LABEL){
             $roles = $this->Users->Roles->find('list')->where(['status'=>1])->all()->toArray();
         }elseif ($loggedInUser['role']->name == self::MANAGEMENT_LABEL) {
