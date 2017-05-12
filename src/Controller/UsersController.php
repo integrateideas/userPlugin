@@ -171,10 +171,17 @@ class UsersController extends AppController
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function delete($id = null)
-    {
+    { 
+        $loggedInUser = $this->Auth->user();
         $this->request->allowMethod(['post', 'delete']);
         $user = $this->Users->get($id);
         if ($this->Users->delete($user)) {
+                $userId = $loggedInUser['id'];
+                $roleName = $loggedInUser['role']->name;
+                $className = '\App\Integrateideas\User\CustomRedirect';
+                $redirectUrl = new $className();
+                $redirectUrl = $redirectUrl->getRedirectUrl($roleName);
+                $this->redirect($redirectUrl);
             $this->Flash->success(__('The user has been deleted.'));
         } else {
             $this->Flash->error(__('The user could not be deleted. Please, try again.'));
