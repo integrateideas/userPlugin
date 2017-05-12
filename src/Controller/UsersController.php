@@ -80,6 +80,7 @@ class UsersController extends AppController
      */
     public function add()
     {
+        $loggedInUser = $this->Auth->user();
         $user = $this->Users->newEntity();
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->data);
@@ -87,12 +88,10 @@ class UsersController extends AppController
             if ($this->Users->save($user)) {
               $this->Flash->success(__('The user has been saved.'));
               $this->_fireEvent('registerUser', $user);
-              if($user['role_id'] == '1'){  
+              if($loggedInUser['role']->name == self::SUPER_ADMIN_LABEL){  
                 return $this->redirect('/users/adminDashboard');
-              }elseif ($user['role_id'] == '2') {
-                return $this->redirect('/users/managementDashboard');
               }else{
-                return $this->redirect('/users/employeeDashboard');
+                return $this->redirect('/users/managementDashboard');
               }
             }else{
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
@@ -102,7 +101,6 @@ class UsersController extends AppController
           }
       }
 
-      $loggedInUser = $this->Auth->user();
       if($loggedInUser['role']->name == self::SUPER_ADMIN_LABEL){
           $roles = $this->Users->Roles->find('list')->where(['status'=>1])->all()->toArray();
       }elseif ($loggedInUser['role']->name == self::MANAGEMENT_LABEL) {
@@ -129,7 +127,7 @@ class UsersController extends AppController
             'contain' => []
             ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $user = $this->Users->patchEntity($user, $this->request->getData());
+            $user = $this->Users->patchEntity($user, $this->request->data());
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
 
