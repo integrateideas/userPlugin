@@ -80,6 +80,7 @@ class UsersController extends AppController
      */
     public function add()
     {
+        $loggedInUser = $this->Auth->user();
         $user = $this->Users->newEntity();
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->data);
@@ -87,14 +88,19 @@ class UsersController extends AppController
             if ($this->Users->save($user)) {
               $this->Flash->success(__('The user has been saved.'));
               $this->_fireEvent('registerUser', $user);
-              if($user['role_id'] == '1'){  
-                return $this->redirect('/users/adminDashboard');
-              }elseif ($user['role_id'] == '2') {
-                return $this->redirect('/users/managementDashboard');
-              }else{
-                return $this->redirect('/users/employeeDashboard');
-              }
-            }else{
+              $userId = $loggedInUser['id'];
+              $roleName = $loggedInUser['role']->name;
+              $className = '\App\Integrateideas\User\CustomRedirect';
+              $redirectUrl = new $className();
+              $redirectUrl = $redirectUrl->getRedirectUrl($roleName);
+              $this->redirect($redirectUrl);
+              // if($loggedInUser['role']->name == self::SUPER_ADMIN_LABEL){  
+              //   return $this->redirect('/users/adminDashboard');
+              // }else{
+              //   return $this->redirect('/users/managementDashboard');
+              // }
+            }
+            else{
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
             }
           }else{
@@ -102,7 +108,6 @@ class UsersController extends AppController
           }
       }
 
-      $loggedInUser = $this->Auth->user();
       if($loggedInUser['role']->name == self::SUPER_ADMIN_LABEL){
           $roles = $this->Users->Roles->find('list')->where(['status'=>1])->all()->toArray();
       }elseif ($loggedInUser['role']->name == self::MANAGEMENT_LABEL) {
@@ -125,19 +130,26 @@ class UsersController extends AppController
      */
     public function edit($id = null)
     {
+        $loggedInUser = $this->Auth->user();
         $user = $this->Users->get($id, [
             'contain' => []
             ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $user = $this->Users->patchEntity($user, $this->request->getData());
+            $user = $this->Users->patchEntity($user, $this->request->data());
             if ($this->Users->save($user)) {
+                $userId = $loggedInUser['id'];
+                $roleName = $loggedInUser['role']->name;
+                $className = '\App\Integrateideas\User\CustomRedirect';
+                $redirectUrl = new $className();
+                $redirectUrl = $redirectUrl->getRedirectUrl($roleName);
+                $this->redirect($redirectUrl);
                 $this->Flash->success(__('The user has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
-        $loggedInUser = $this->Auth->user();
+        // $loggedInUser = $this->Auth->user();
         if($loggedInUser['role']->name == self::SUPER_ADMIN_LABEL){
             $roles = $this->Users->Roles->find('list')->where(['status'=>1])->all()->toArray();
         }elseif ($loggedInUser['role']->name == self::MANAGEMENT_LABEL) {
@@ -159,10 +171,17 @@ class UsersController extends AppController
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function delete($id = null)
-    {
+    { 
+        $loggedInUser = $this->Auth->user();
         $this->request->allowMethod(['post', 'delete']);
         $user = $this->Users->get($id);
         if ($this->Users->delete($user)) {
+                $userId = $loggedInUser['id'];
+                $roleName = $loggedInUser['role']->name;
+                $className = '\App\Integrateideas\User\CustomRedirect';
+                $redirectUrl = new $className();
+                $redirectUrl = $redirectUrl->getRedirectUrl($roleName);
+                $this->redirect($redirectUrl);
             $this->Flash->success(__('The user has been deleted.'));
         } else {
             $this->Flash->error(__('The user could not be deleted. Please, try again.'));
