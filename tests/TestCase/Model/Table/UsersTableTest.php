@@ -81,24 +81,4 @@ class UsersTableTest extends TestCase
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
-
-    /**
-     * Test beforeMarshal method
-     *
-     * @return void
-     */
-    public function testBeforeMarshal()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test passwordHippaCheck method
-     *
-     * @return void
-     */
-    public function testPasswordHippaCheck()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
 }

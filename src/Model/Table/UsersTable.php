@@ -5,16 +5,13 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Cake\Utility\Inflector;
 use Cake\Utility\Text;
-use Cake\Event\EventManager;
-use Cake\Core\Configure;
 
 /**
  * Users Model
  *
  * @property \Cake\ORM\Association\BelongsTo $Roles
- * @property \Cake\ORM\Association\HasMany $ResetPasswordHashes
- * @property \Cake\ORM\Association\HasMany $UserOldPasswords
  *
  * @method \Integrateideas\User\Model\Entity\User get($primaryKey, $options = [])
  * @method \Integrateideas\User\Model\Entity\User newEntity($data = null, array $options = [])
@@ -39,21 +36,18 @@ class UsersTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('users');
-        $this->displayField('id');
-        $this->primaryKey('id');
+        $this->setTable('users');
+        $this->setDisplayField('id');
+        $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
 
-        $this->hasMany('ResetPasswordHashes', [
-            'foreignKey' => 'user_id',
-            'className' => 'Integrateideas/User.ResetPasswordHashes'
-        ]);
         $this->belongsTo('Roles', [
             'foreignKey' => 'role_id',
             'joinType' => 'INNER',
             'className' => 'Integrateideas/User.Roles'
         ]);
+
         $this->hasMany('UserOldPasswords', [
             'foreignKey' => 'user_id',
             'className' => 'Integrateideas/User.UserOldPasswords'
@@ -73,41 +67,39 @@ class UsersTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->requirePresence('first_name', 'create')
-            ->notEmpty('first_name');
+            ->allowEmpty('first_name');
 
         $validator
-            ->requirePresence('last_name', 'create')
-            ->notEmpty('last_name');
+            ->allowEmpty('last_name');
 
         $validator
             ->requirePresence('username', 'create')
             ->notEmpty('username');
 
         $validator
-            ->email('email')
-            ->requirePresence('email', 'create')
-            ->notEmpty('email');
-
-        $validator
-            ->requirePresence('phone', 'create')
-            ->notEmpty('phone');
-
-        $validator
             ->requirePresence('password', 'create')
             ->notEmpty('password');
 
         $validator
-            ->uuid('uuid')
-            ->requirePresence('uuid', 'create')
-            ->notEmpty('uuid');
+            ->email('email')
+            ->allowEmpty('email');
+
+        $validator
+            ->allowEmpty('phone');
+
+        // $validator
+        //     ->requirePresence('uuid', 'create')
+        //     ->notEmpty('uuid');
 
         $validator
             ->boolean('status')
             ->requirePresence('status', 'create')
             ->notEmpty('status');
+
         $validator
-            ->allowEmpty('role_id');
+            ->dateTime('is_deleted')
+            ->allowEmpty('is_deleted');
+
         return $validator;
     }
 
@@ -126,20 +118,36 @@ class UsersTable extends Table
         return $rules;
     }
 
-    public function beforeMarshal( \Cake\Event\Event $event, \ArrayObject $data, \ArrayObject $options){
-       if (!isset($data['uuid'])) {
-           $data['uuid'] = Text::uuid();
+     public function beforeSave( \Cake\Event\Event $event, $entity, \ArrayObject $options){
+      if ($entity->isNew()){
+           $entity->uuid = Text::uuid();
        }
-
     }
-    public function findWithDisabled(Query $query, array $options)
-    {
-        $field = 'Users.status';
 
-        return $query->where(['OR' => [
-            $query->newExpr()->add([$field => 1]),
-            $query->newExpr()->add([$field =>  0]),
-        ]]);
+    public function getUsername($data){
 
+      $proposedUsername = $data['email'];
+      $usernameExists = $this->find('all')->where(['username'=> $proposedUsername])->count();
+
+      //check if username generated from email
+      if($usernameExists > 0){
+        $proposedUsername1 = $data['first_name'].$data['last_name'];
+        $proposedUsername1 = Inflector::slug(strtolower($proposedUsername1));
+        $username = $proposedUsername1;
+        $usernameExists1 = $this->find('all')->where(['username LIKE'=>$proposedUsername1.'%'])->count();
+
+        //check if username from first and last name already  exists
+        if($usernameExists1 > 0){
+          $auto = 1;
+          $countIncrement = $usernameExists1+$auto;
+          $username = $proposedUsername1.$countIncrement;
+        }
+
+        return $username;
+
+      }else{
+
+        return $proposedUsername;
+      } 
     }
 }

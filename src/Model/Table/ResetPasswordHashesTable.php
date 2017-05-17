@@ -5,7 +5,6 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-use Cake\ORM\Behavior\TimestampBehavior;
 
 /**
  * ResetPasswordHashes Model
@@ -35,9 +34,9 @@ class ResetPasswordHashesTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('reset_password_hashes');
-        $this->displayField('id');
-        $this->primaryKey('id');
+        $this->setTable('reset_password_hashes');
+        $this->setDisplayField('id');
+        $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
 

@@ -1,23 +1,26 @@
 {
-    "name": "integrateideas/user",
+    "name": "Integrateideas/User",
     "description": "Integrateideas/User plugin for CakePHP",
     "type": "cakephp-plugin",
+    "require": {
+        "cakephp/cakephp": "^3.4"
+    },
     "homepage": "https://github.com/integrateideas/userPlugin",
-    "authors": [
-        {
-            "name": "Integrateideas",
-            "role": "Author",
-            "homepage": "https://github.com/integrateideas"
-        }],
+    "authors": [{
+
+        "name": "Integrateideas",
+        "role": "Author",
+        "homepage": "https://github.com/integrateideas"
+    }],
     "require": {
         "php": ">=5.5.9",
         "cakephp/cakephp": ">=3.3.2 <4.0.0"
     },
-    "repositories": [
-              {
-            "type": "vcs",
-            "url": "https://github.com/integrateideas/userPlugin"
-        } ],
+    "repositories": [{
+
+        "type": "vcs",
+        "url": "https://github.com/integrateideas/userPlugin"
+    }],
     "require-dev": {
         "phpunit/phpunit": "*"
     },

@@ -17,16 +17,6 @@ namespace Integrateideas\User\Controller\Api;
 use Cake\Controller\Controller;
 use Cake\Event\Event;
 use Cake\Network\Request;
-use Cake\Network\Exception\BadRequestException;
-use Cake\Network\Exception\UnauthorizedException;
-use Cake\Network\Exception\ForbiddenException;
-use Cake\Network\Exception\NotFoundException;
-use Cake\Network\Exception\MethodNotAllowedException;
-use Cake\Network\Exception\ConflictException;
-use Cake\I18n\Time;
-use Cake\Utility\Security;
-use Cake\Network\Exception\InternalErrorException;
-use Cake\Log\Log;
 use Cake\Cache\Cache;
 
 
@@ -40,16 +30,19 @@ use Cake\Cache\Cache;
 */
 class ApiController extends Controller
 {
-	
-
-	const BEARER_LABEL='bearer';
-
-  private $_errorVal = array();
-
 	public function initialize()
 	{
 		parent::initialize();
 		$this->loadComponent('RequestHandler');
+    $this->loadComponent('Auth', [
+          'authorize' => 'Controller',
+            'loginAction' => [
+                'controller' => 'Users',
+                'action' => 'login'
+            ],
+            'unauthorizedRedirect' => false
+        ]);
+    $this->loadComponent('Integrateideas/User.Events');
 	}
   
   public function beforeFilter(Event $event)
@@ -85,6 +78,6 @@ class ApiController extends Controller
   }
   public function isAuthorized($user)
   {
-    return false;
+    return true;
   }
 }

@@ -1,5 +1,5 @@
 <?php
-namespace App\Model\Entity;
+namespace Integrateideas\User\Model\Entity;
 
 use Cake\ORM\Entity;
 
@@ -9,11 +9,12 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property string $name
  * @property string $label
+ * @property string $loginRedirectUrl
  * @property bool $status
- * @property \Cake\I18n\Time $created
- * @property \Cake\I18n\Time $modified
+ * @property \Cake\I18n\FrozenTime $created
+ * @property \Cake\I18n\FrozenTime $modified
  *
- * @property \App\Model\Entity\User[] $users
+ * @property \Integrateideas\User\Model\Entity\User[] $users
  */
 class Role extends Entity
 {

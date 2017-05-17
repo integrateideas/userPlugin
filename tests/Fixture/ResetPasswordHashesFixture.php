@@ -42,8 +42,8 @@ class ResetPasswordHashesFixture extends TestFixture
             'id' => 1,
             'user_id' => 1,
             'hash' => 'Lorem ipsum dolor sit amet',
-            'created' => '2017-04-04 13:24:59',
-            'modified' => '2017-04-04 13:24:59'
+            'created' => '2017-05-16 07:56:05',
+            'modified' => '2017-05-16 07:56:05'
         ],
     ];
 }

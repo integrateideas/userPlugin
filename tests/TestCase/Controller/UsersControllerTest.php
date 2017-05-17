@@ -16,8 +16,7 @@ class UsersControllerTest extends IntegrationTestCase
      * @var array
      */
     public $fixtures = [
-        'plugin.integrateideas/user.users',
-        'plugin.integrateideas/user.roles'
+        'plugin.integrateideas/user.users'
     ];
 
     /**
