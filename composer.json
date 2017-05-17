@@ -1,5 +1,5 @@
 {
-    "name": "Integrateideas/User",
+    "name": "integrateideas/user",
     "description": "Integrateideas/User plugin for CakePHP",
     "type": "cakephp-plugin",
     "require": {
