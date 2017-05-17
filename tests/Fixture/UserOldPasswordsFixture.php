@@ -42,8 +42,8 @@ class UserOldPasswordsFixture extends TestFixture
             'id' => 1,
             'password' => 'Lorem ipsum dolor sit amet',
             'user_id' => 1,
-            'created' => '2017-04-03 11:44:02',
-            'modified' => '2017-04-03 11:44:02'
+            'created' => '2017-05-15 10:43:03',
+            'modified' => '2017-05-15 10:43:03'
         ],
     ];
 }

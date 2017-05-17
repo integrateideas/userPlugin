@@ -2,6 +2,7 @@
 namespace Integrateideas\User\Model\Entity;
 
 use Cake\ORM\Entity;
+use Cake\Auth\DefaultPasswordHasher;
 
 /**
  * UserOldPassword Entity
@@ -9,8 +10,8 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property string $password
  * @property int $user_id
- * @property \Cake\I18n\Time $created
- * @property \Cake\I18n\Time $modified
+ * @property \Cake\I18n\FrozenTime $created
+ * @property \Cake\I18n\FrozenTime $modified
  *
  * @property \Integrateideas\User\Model\Entity\User $user
  */
@@ -39,5 +40,9 @@ class UserOldPassword extends Entity
     protected $_hidden = [
         'password'
     ];
-    
+
+    protected function _setPassword($value){
+        $hasher = new DefaultPasswordHasher();
+        return $hasher->hash($value);    
+    }
 }

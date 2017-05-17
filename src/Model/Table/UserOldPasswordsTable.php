@@ -5,9 +5,6 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-use Cake\Utility\Text;
-use Cake\Event\EventManager;
-use Cake\Core\Configure;
 
 /**
  * UserOldPasswords Model
@@ -37,9 +34,9 @@ class UserOldPasswordsTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('user_old_passwords');
-        $this->displayField('id');
-        $this->primaryKey('id');
+        $this->setTable('user_old_passwords');
+        $this->setDisplayField('id');
+        $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
 

@@ -1,41 +1,46 @@
-<div class = "row">
-<div class="col-lg-9">
-    <div class="wrapper wrapper-content animated fadeInUp">
-            <div class="ibox">
-                <div class="ibox-content">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="m-b-md">
-                                <h2><?= h($user->first_name." ".$user->last_name) ?></h2>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <dl class="dl-horizontal">
-                                <dt><?= __('First Name') ?>:</dt> <dd> <?= h($user->first_name) ?> </dd>
-                                <dt><?= __('Last Name') ?>:</dt> <dd> <?= h($user->last_name) ?> </dd>
-                                <dt><?= __('Username') ?>:</dt> <dd> <?= h($user->username) ?> </dd>
-                                <dt><?= __('Email') ?>:</dt> <dd> <?= h($user->email) ?> </dd>
-                                <dt><?= __('Phone') ?>:</dt> <dd> <?= h($user->phone) ?> </dd>
-                                <!-- <dt><?= __('Role') ?>:</dt> <dd> <?= h($user->role['label']) ?> </dd> -->
-                                <dt><?= __('Created') ?>:</dt> <dd> <?= h($user->created) ?> </dd>
-                                <dt><?= __('Modified') ?>:</dt> <dd><?= h($user->modified) ?></dd>
-                                <dt><?= __('Status') ?>:</dt> <dd><?= h($user->status)?'Enabled':'Disabled' ?></dd>
-                            </dl>
-                        </div>
-                    </div> 
-                    <div class="row">
-                        <div class="col-lg-12 text-center">
-                            <?= $this->Html->link('Back',$this->request->referer(),['class' => ['btn', 'btn-warning']]);?>
-                        </div>
-                    </div>
-                
-                </div>
-            </div>
-        </div>
+<?php
+/**
+  * @var \App\View\AppView $this
+  */
+?>
+<div class="row">
+    <h3><?= h($user->first_name.' '.$user->last_name) ?></h3>
+    <table class="table table-bordered">
+        <tr>
+            <th scope="row"><?= __('First Name') ?></th>
+            <td><?= h($user->first_name) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Last Name') ?></th>
+            <td><?= h($user->last_name) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Username') ?></th>
+            <td><?= h($user->username) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Email') ?></th>
+            <td><?= h($user->email) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Phone') ?></th>
+            <td><?= h($user->phone) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Role') ?></th>
+            <td><?= $user->has('role') ? $this->Html->link($user->role->name, ['controller' => 'Roles', 'action' => 'view', $user->role->id]) : '' ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Created') ?></th>
+            <td><?= h($user->created) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Status') ?></th>
+            <td><?= $user->status ? __('Enabled') : __('Disabled'); ?></td>
+        </tr>
+    </table>
+    <br>
+    <div class="text-center"> 
+        <?= $this->Html->link('Back',$this->request->referer(),['class' => ['btn', 'btn-warning']]);?>
     </div>
 </div>
-
-
-

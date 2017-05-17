@@ -26,7 +26,8 @@ class ResetPasswordHashesTableTest extends TestCase
     public $fixtures = [
         'plugin.integrateideas/user.reset_password_hashes',
         'plugin.integrateideas/user.users',
-        'plugin.integrateideas/user.roles'
+        'plugin.integrateideas/user.roles',
+        'plugin.integrateideas/user.user_old_passwords'
     ];
 
     /**

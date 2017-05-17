@@ -1,8 +1,10 @@
 <?php
 namespace Integrateideas\User\Model\Entity;
 
+
 use Cake\ORM\Entity;
 use Cake\Auth\DefaultPasswordHasher;
+
 /**
  * User Entity
  *
@@ -10,15 +12,15 @@ use Cake\Auth\DefaultPasswordHasher;
  * @property string $first_name
  * @property string $last_name
  * @property string $username
+ * @property string $password
  * @property string $email
  * @property string $phone
- * @property string $password
+ * @property int $role_id
  * @property string $uuid
  * @property bool $status
- * @property bool $is_deleted
- * @property \Cake\I18n\Time $created
- * @property \Cake\I18n\Time $modified
- * @property int $role_id
+ * @property \Cake\I18n\FrozenTime $is_deleted
+ * @property \Cake\I18n\FrozenTime $created
+ * @property \Cake\I18n\FrozenTime $modified
  *
  * @property \Integrateideas\User\Model\Entity\Role $role
  */
@@ -47,14 +49,9 @@ class User extends Entity
     protected $_hidden = [
         'password'
     ];
-    
+
     protected function _setPassword($value){
         $hasher = new DefaultPasswordHasher();
         return $hasher->hash($value);    
-    }
-    protected function _getFullName()
-    {
-        return $this->_properties['first_name'] . '  ' .
-        $this->_properties['last_name'];
     }
 }
