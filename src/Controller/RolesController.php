@@ -88,7 +88,7 @@ class RolesController extends AppController
             'contain' => []
         ]);
 
-        $editEnterEvent = $this->Events->fireEvent('roles.edit.enter', $user);
+        $editEnterEvent = $this->Events->fireEvent('roles.edit.enter', $role);
 
         if ($this->request->is(['patch', 'post', 'put'])) {
 

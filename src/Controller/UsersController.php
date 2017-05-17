@@ -3,6 +3,7 @@ namespace Integrateideas\User\Controller;
 
 use Integrateideas\User\Controller\AppController;
 use Cake\Auth\DefaultPasswordHasher;
+use Cake\Routing\Router;
 
 /**
  * Users Controller
@@ -167,12 +168,22 @@ class UsersController extends AppController
                 $this->Auth->setUser($user);
                 $role = $this->Users->Roles->findById($user['role_id'])
                                                   ->first();
-                if($role && isset($role->login_redirect_url) && $role->login_redirect_url){
+                if($role){
+
+                  if(isset($role->login_redirect_url) && $role->login_redirect_url){
+
                     $url = Router::url('/', true);
                     $url = $url.$role->login_redirect_url;
                     return $this->redirect($url);
-                }else{
+
+                  }else{
+                    
                     return $this->redirect(['action' => 'index']);
+                  }
+                
+                }else{
+                   $this->Flash->error(__('Role not found'));
+                   return $this->logout(); 
                 }
             } else {
                 $this->Flash->error(__('Username or password is incorrect'));

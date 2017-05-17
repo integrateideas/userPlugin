@@ -16,7 +16,7 @@
         </tr>
         <tr>
             <th scope="row"><?= __('Login Redirect Url') ?></th>
-            <td><?= h($role->loginRedirectUrl) ?></td>
+            <td><?= h($role->login_redirect_url) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Created') ?></th>

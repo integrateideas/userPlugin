@@ -16,7 +16,7 @@
             </div>
             <div class="form-group">
               <label for="login_redirect_url">Login Redirect Url:</label>
-              <?= $this->Form->input('loginRedirectUrl', ['class' => 'form-control', 'label' => false, 'placeholder' => 'users/dashboard', 'required'=>'required']); ?>
+              <?= $this->Form->input('login_redirect_url', ['class' => 'form-control', 'label' => false, 'placeholder' => 'users/dashboard']); ?>
             </div>
             <div class="form-group">   
                 <label>
