@@ -271,7 +271,7 @@ class UsersController extends ApiController
 					$userOldPasswordCheck =$userOldPasswordCheck->order('created ASC')->first();
 					$userOldPasswordCheck = $this->UserOldPasswords->delete($userOldPasswordCheck);
 				}
-        		$updatePasswordSaveEvent = $this->Events->fireEvent('users.updatePassword.save', $updatePasswordSaveEvent);
+        		$updatePasswordSaveEvent = $this->Events->fireEvent('users.updatePassword.save', ['data' => $updatePasswordSaveEvent]);
 				$data =array();
 				$data['status']=true;
 				$data['data']['id']=$user->id;
