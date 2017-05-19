@@ -24,7 +24,7 @@
             </div>
             <div class="form-group">
               <label for="phone">Primary Contact:</label>
-              <?= $this->Form->input('phone', ['class' => 'form-control', 'label' => false, 'placeholder' => '9876543210', 'required'=>'required']); ?>
+              <?= $this->Form->input('phone', ['class' => 'form-control', 'label' => false, 'placeholder' => '9876543210']); ?>
             </div>
             <div class="form-group">
                 <label for="role">Role:</label>

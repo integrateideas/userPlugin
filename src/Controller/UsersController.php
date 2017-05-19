@@ -32,7 +32,8 @@ class UsersController extends AppController
         $users = $this->paginate($this->Users);
         $loggedInUser = $this->Auth->user();
         $indexEvent = $this->Events->fireEvent('users.index', $users);
-        $this->set(compact('users', 'loggedInUser', 'indexEvent'));        
+        $users = $indexEvent;
+        $this->set(compact('usersData', 'loggedInUser'));        
         $this->set('_serialize', ['users']);
     }
 

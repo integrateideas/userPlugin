@@ -70,9 +70,7 @@ class RolesTable extends Table
             ->allowEmpty('loginRedirectUrl');
 
         $validator
-            ->boolean('status')
-            ->requirePresence('status', 'create')
-            ->notEmpty('status');
+            ->boolean('status');
 
         return $validator;
     }
