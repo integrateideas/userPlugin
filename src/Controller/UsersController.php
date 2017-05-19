@@ -32,7 +32,8 @@ class UsersController extends AppController
         $users = $this->paginate($this->Users);
         $loggedInUser = $this->Auth->user();
         $indexEvent = $this->Events->fireEvent('users.index', $users);
-        $this->set(compact('users', 'loggedInUser', 'indexEvent'));        
+        $users = $indexEvent;
+        $this->set(compact('usersData', 'loggedInUser'));        
         $this->set('_serialize', ['users']);
     }
 
@@ -169,11 +170,12 @@ class UsersController extends AppController
                 $role = $this->Users->Roles->findById($user['role_id'])
                                                   ->first();
                 if($role){
-
+                  $loginSuccessEvent = $this->Events->fireEvent('users.login.success', $user);
                   if(isset($role->login_redirect_url) && $role->login_redirect_url){
 
                     $url = Router::url('/', true);
                     $url = $url.$role->login_redirect_url;
+                    
                     return $this->redirect($url);
 
                   }else{
