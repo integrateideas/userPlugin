@@ -29,7 +29,15 @@ class RolesController extends ApiController
         if(!$this->request->is(['get'])){
             throw new MethodNotAllowedException(__('BAD_REQUEST'));
         }
-        $roles = $this->Roles->find()->all();
+
+        $query = $this->request->getQueryParams();
+        $columns = $this->Roles->schema()->columns();
+        foreach ($query as $field => $value) {
+            if(!in_array($field, $columns)){
+                throw new BadRequestException(__('Field {0} does not exist in Roles Table.', $field));
+            }
+        }
+        $roles = $this->Roles->find()->where($query)->all();
         $indexEvent = $this->Events->fireEvent('roles.index', $roles);
         $this->set(compact('roles', 'indexEvent'));        
         $this->set('_serialize', ['roles']);
