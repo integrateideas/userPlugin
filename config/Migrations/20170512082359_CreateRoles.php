@@ -23,7 +23,7 @@ class CreateRoles extends AbstractMigration
             'limit' => 255,
             'null' => false,
         ]);
-        $table->addColumn('loginRedirectUrl', 'string', [
+        $table->addColumn('login_redirect_url', 'string', [
             'default' => null,
             'limit' => 255,
             'null' => true,
