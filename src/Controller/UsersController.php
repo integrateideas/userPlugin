@@ -4,6 +4,7 @@ namespace Integrateideas\User\Controller;
 use Integrateideas\User\Controller\AppController;
 use Cake\Auth\DefaultPasswordHasher;
 use Cake\Routing\Router;
+use Cake\Network\Session;
 
 /**
  * Users Controller
@@ -180,6 +181,9 @@ class UsersController extends AppController
                                                   ->first();
                 if($role){
                   $loginSuccessEvent = $this->Events->fireEvent('users.login.success', $user);
+                  $session = new Session();
+                  $session->write('loginSuccessEvent', $loginSuccessEvent);
+
                   if(isset($role->login_redirect_url) && $role->login_redirect_url){
 
                     $url = Router::url('/', true);
