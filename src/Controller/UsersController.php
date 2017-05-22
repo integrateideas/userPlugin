@@ -29,11 +29,20 @@ class UsersController extends AppController
         $this->paginate = [
             'contain' => ['Roles']
         ];
-        $users = $this->paginate($this->Users);
+
+        $query = $this->request->getQueryParams();  
+
+        $columns = $this->Users->schema()->columns();
+        foreach ($query as $field => $value) {
+          if(!in_array($field, $columns)){
+            throw new BadRequestException(__('Field {0} does not exist in Users Table.', $field));
+          }
+        }
+        $users = $this->paginate($this->Users->find()->where($query));
+
         $loggedInUser = $this->Auth->user();
         $indexEvent = $this->Events->fireEvent('users.index', $users);
-        $users = $indexEvent;
-        $this->set(compact('usersData', 'loggedInUser'));        
+        $this->set(compact('users', 'loggedInUser', 'indexEvent'));        
         $this->set('_serialize', ['users']);
     }
 
