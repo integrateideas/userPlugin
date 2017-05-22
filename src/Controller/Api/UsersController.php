@@ -33,9 +33,14 @@ class UsersController extends ApiController
     	if(!$this->request->is(['get'])){
 			throw new MethodNotAllowedException(__('BAD_REQUEST'));
 		}
-
+		
 		$query = $this->request->getQueryParams();
-
+		$columns = $this->Users->schema()->columns();
+		foreach ($query as $field => $value) {
+			if(!in_array($field, $columns)){
+				throw new BadRequestException(__('Field {0} does not exist in Users Table.', $field));
+			}
+		}
         $users = $this->Users->find()->where($query)->all();
         $indexEvent = $this->Events->fireEvent('users.index', $users);
         $this->set(compact('users', 'indexEvent'));        
