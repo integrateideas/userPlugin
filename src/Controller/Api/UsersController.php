@@ -340,7 +340,7 @@ class UsersController extends ApiController
 		$url = $url.'integrateideas/user/users/resetPassword?reset-token='.$resetPwdHash;
 		$user->link = $url;
   
-	    $resetPasswordLinkEvent = $this->Events->fireEvent('users.resetPasswordLink', $url);
+	    $resetPasswordLinkEvent = $this->Events->fireEvent('users.resetPasswordLink', $user);
 
 		$response = ['message' => __('VERIFIED_AND_CHANGE_PASSWORD'), 'resetPasswordLinkEvent' => $resetPasswordLinkEvent];
 

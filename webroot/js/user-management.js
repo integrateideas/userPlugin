@@ -33,7 +33,7 @@ $('#saveUserPassword').on('click',function(event){
 					$('#rsp_msg').show();
 					setTimeout(function(){
 						$('#rsp_msg').fadeIn(500);
-						$('#changePasswordModal').modal('hide');
+						$('#changePassword').modal('hide');
 						$('#rsp_msg').removeClass('alert-success');
 						$('#rsp_msg').hide();
 						$('#rsp_msg').html('');
@@ -91,7 +91,7 @@ $('#saveUserPassword').on('click',function(event){
 				$('#rsp_msg').show();
 				setTimeout(function(){
 					$('#rsp_msg').fadeIn(500);
-					$('#changePasswordModal').modal('hide');
+					$('#forgotPassword').modal('hide');
 					$('#rsp_msg').removeClass('alert-success');
 					$('#rsp_msg').hide();
 					$('#rsp_msg').html('');

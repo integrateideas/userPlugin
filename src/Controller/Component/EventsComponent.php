@@ -24,8 +24,8 @@ class EventsComponent extends Component
         $event = new Event($name, $this, [$data]);
 		$eventManager = new EventManager();
 		$eventManager->dispatch($event);
-        if(isset($event->result)){
-            return $event->result;
+        if(isset($event->getResult())){
+            return $event->getResult();
         }else{
             return false;
         }
