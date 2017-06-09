@@ -92,9 +92,9 @@ class UsersTable extends Table
         //     ->notEmpty('uuid');
 
         $validator
-            ->boolean('status')
-            ->requirePresence('status', 'create')
-            ->notEmpty('status');
+            ->boolean('status');
+            // ->requirePresence('status', 'create')
+            // ->notEmpty('status');
 
         $validator
             ->dateTime('is_deleted')
