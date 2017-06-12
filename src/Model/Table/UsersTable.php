@@ -151,7 +151,7 @@ class UsersTable extends Table
       } 
     }
 
-    private function getPassword( $type = 'alnum', $length = 8 )
+    public function getPassword( $type = 'alnum', $length = 8 )
     {
         switch ( $type ) {
           case 'alnum':
