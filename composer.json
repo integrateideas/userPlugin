@@ -4,7 +4,7 @@
     "type": "cakephp-plugin",
     "require": {
         "cakephp/cakephp": "^3.4",
-        "admad/cakephp-hybridauth": "^4.0"
+        "hybridauth/hybridauth" : "~3.0"
     },
     "homepage": "https://github.com/integrateideas/userPlugin",
     "authors": [{
