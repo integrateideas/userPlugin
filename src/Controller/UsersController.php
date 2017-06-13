@@ -27,9 +27,6 @@ class UsersController extends AppController
      */
     public function index()
     {   
-        $this->paginate = [
-            'contain' => ['Roles']
-        ];
 
         $query = $this->request->getQueryParams();  
 
@@ -39,7 +36,7 @@ class UsersController extends AppController
             throw new BadRequestException(__('Field {0} does not exist in Users Table.', $field));
           }
         }
-        $users = $this->paginate($this->Users->find()->where($query));
+        $users = $this->Users->find()->where($query)->all();
 
         $loggedInUser = $this->Auth->user();
         $indexEvent = $this->Events->fireEvent('users.index', $users);
