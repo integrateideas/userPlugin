@@ -27,7 +27,7 @@ class RolesController extends AppController
                 throw new BadRequestException(__('Field {0} does not exist in Roles Table.', $field));
             }
         }
-        $roles = $this->paginate($this->Roles->find()->where($query));
+        $roles = $this->Roles->find()->where($query)->all();
         
         $indexEvent = $this->Events->fireEvent('roles.index', $roles);
         $this->set(compact('roles', 'indexEvent'));        
