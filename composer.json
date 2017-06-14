@@ -3,8 +3,7 @@
     "description": "Integrateideas/User plugin for CakePHP",
     "type": "cakephp-plugin",
     "require": {
-        "cakephp/cakephp": "^3.4",
-        "hybridauth/hybridauth" : "^2.9"
+        "cakephp/cakephp": "^3.4"
     },
     "homepage": "https://github.com/integrateideas/userPlugin",
     "authors": [{
@@ -15,7 +14,8 @@
     }],
     "require": {
         "php": ">=5.5.9",
-        "cakephp/cakephp": ">=3.3.2 <4.0.0"
+        "cakephp/cakephp": ">=3.3.2 <4.0.0",
+        "hybridauth/hybridauth" : "^2.9"
     },
     "repositories": [{
 
