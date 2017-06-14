@@ -30,6 +30,7 @@ return [
         ],
         'debug_mode' => Configure::read('debug'),
         'debug_file' => LOGS . 'hybridauth.log',
+         "base_url" => "http://mywebsite/path/to/hybridauth/",
     ]
 ];
 ?>
