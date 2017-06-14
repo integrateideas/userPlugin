@@ -6,6 +6,7 @@ use Cake\Auth\DefaultPasswordHasher;
 use Cake\Routing\Router;
 use Cake\Network\Session;
 use Hybrid_Auth;
+use Cake\Core\Configure;
 use Hybrid_Endpoint;
 
 /**
