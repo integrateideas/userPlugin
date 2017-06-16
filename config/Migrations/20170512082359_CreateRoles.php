@@ -12,6 +12,9 @@ class CreateRoles extends AbstractMigration
      */
     public function change()
     {
+        if ($this->hasTable('roles')) {
+            return true;
+        }
         $table = $this->table('roles');
         $table->addColumn('name', 'string', [
             'default' => null,
