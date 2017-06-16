@@ -1,5 +1,5 @@
 <?php
-namespace Integrateideas\User\Auth;
+namespace Integrateideas/User\Auth;
 
 use Cake\Auth\BaseAuthenticate;
 use Cake\Controller\ComponentRegistry;
@@ -75,7 +75,7 @@ class HybridAuthAuthenticate extends BaseAuthenticate
                 'openid_identifier' => 'openid_identifier',
                 'email' => 'email'
             ],
-            // 'profileModel' => 'Integrateideas\User.SocialProfiles',
+            // 'profileModel' => 'Integrateideas/User.SocialProfiles',
             // 'profileModelFkField' => 'user_id',
             'hauth_return_to' => null
         ]);
@@ -106,7 +106,7 @@ class HybridAuthAuthenticate extends BaseAuthenticate
         if (empty($hybridConfig['base_url'])) {
             $hybridConfig['base_url'] = Router::url(
                 [
-                    'plugin' => 'Integrateideas\User',
+                    'plugin' => 'Integrateideas/User',
                     'controller' => 'SocialConnection',
                     'action' => 'endpoint',
                     'prefix' => false
@@ -197,7 +197,7 @@ class HybridAuthAuthenticate extends BaseAuthenticate
 
         $returnTo = Router::url(
             [
-                'plugin' => 'Integrateideas\User',
+                'plugin' => 'Integrateideas/User',
                 'controller' => 'SocialConnection',
                 'action' => 'authenticated',
                 'prefix' => false
