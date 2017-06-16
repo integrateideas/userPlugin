@@ -203,19 +203,12 @@ class UsersTable extends Table
         return $token;
       }    
       public function createUser(\Cake\Event\Event $event) {
-        $request = (Router::getRequest());
-        $vendorId = $request->query['vendor_id'];
         $profile = $event->data()['profile'];
         $req = [
         'email' => $profile->email,
         'username'=>$this->_suggestUsername($profile->first_name.$profile->last_name),
         'first_name' => $profile->first_name,
-        'last_name' => $profile->last_name,
-        'vendor_players'=>[
-        [
-        'vendor_id'=>$vendorId
-        ]
-        ]
+        'last_name' => $profile->last_name
         ];
         $user = $this->newEntity($req);
         $user = $this->patchEntity($user);
