@@ -19,7 +19,7 @@ use App\Controller\AppController;
  *
  * @method \Integrateideas\User\Model\Entity\User[] paginate($object = null, array $settings = [])
  */
-class UserSocialConnectionController extends AppController
+class UserSocialConnectionsController extends AppController
 {
 
   public function initialize(){
