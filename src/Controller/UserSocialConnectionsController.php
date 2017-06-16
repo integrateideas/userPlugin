@@ -60,7 +60,7 @@ class UserSocialConnectionsController extends AppController
    public function authenticated()
    {
        $user = $this->Auth->identify();
-       pr($user);die;
+       //pr($user);die;
        if ($user) {
            $this->Auth->setUser($user);
            Log::write('debug', json_encode($user));
@@ -79,7 +79,7 @@ class UserSocialConnectionsController extends AppController
       $hybridauth = new Hybrid_Auth($hybridConfig );
       // $hybridauth = $hybridauth->getAdapter('Facebook');
       $hybridauth = $hybridauth->authenticate( "Facebook" );
-      pr($hybridauth->getUserProfile());die;
+     // pr($hybridauth->getUserProfile());die;
     }
   }
 
