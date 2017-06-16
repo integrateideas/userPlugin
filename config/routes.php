@@ -24,11 +24,11 @@ Router::plugin(
 		
 		$routes->connect(
 			'/endpoint',
-			['controller' => 'SocialConnection', 'action' => 'endpoint']
+			['controller' => 'UserSocialConnections', 'action' => 'endpoint']
 			);
 		$routes->connect(
 			'/authenticated',
-			['controller' => 'SocialConnection', 'action' => 'authenticated']
+			['controller' => 'UserSocialConnections', 'action' => 'authenticated']
 			);
 		$routes->fallbacks(DashedRoute::class);
 	}
