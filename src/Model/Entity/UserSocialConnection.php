@@ -9,7 +9,7 @@ use Cake\ORM\Entity;
  * Licensed under The MIT License
  * For full copyright and license information, please see the LICENSE.txt
  */
-class SocialProfile extends Entity
+class UserSocialConnection extends Entity
 {
 
     protected $_accessible = [

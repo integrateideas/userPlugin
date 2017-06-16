@@ -107,7 +107,7 @@ class HybridAuthAuthenticate extends BaseAuthenticate
             $hybridConfig['base_url'] = Router::url(
                 [
                     'plugin' => 'Integrateideas/User',
-                    'controller' => 'SocialConnection',
+                    'controller' => 'UserSocialConnection',
                     'action' => 'endpoint',
                     'prefix' => false
                 ],
@@ -198,7 +198,7 @@ class HybridAuthAuthenticate extends BaseAuthenticate
         $returnTo = Router::url(
             [
                 'plugin' => 'Integrateideas/User',
-                'controller' => 'SocialConnection',
+                'controller' => 'UserSocialConnection',
                 'action' => 'authenticated',
                 'prefix' => false
             ],

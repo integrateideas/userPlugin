@@ -9,7 +9,7 @@ use Cake\ORM\Table;
  * Licensed under The MIT License
  * For full copyright and license information, please see the LICENSE.txt
  */
-class SocialProfilesTable extends Table
+class UserSocialConnectionsTable extends Table
 {
 
     /**
@@ -25,5 +25,10 @@ class SocialProfilesTable extends Table
         $this->addBehavior('Timestamp');
 
         $this->belongsTo('Users');
+        $this->addBehavior('Timestamp');
+
+        $this->belongsTo('Users', [
+            'className' => 'Integrateideas/User.Users'
+        ]);
     }
 }

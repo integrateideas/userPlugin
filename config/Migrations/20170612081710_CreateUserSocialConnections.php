@@ -1,11 +1,11 @@
 <?php
 use Phinx\Migration\AbstractMigration;
 
-class CreateSocialProfiles extends AbstractMigration
+class CreateUserSocialConnections extends AbstractMigration
 {
     public function change()
     {
-        $table = $this->table('social_profiles');
+        $table = $this->table('user_social_connections');
         $table
             ->addColumn('user_id', 'integer', [
                 'default' => null,
