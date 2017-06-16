@@ -69,7 +69,7 @@ class HybridAuthAuthenticate extends BaseAuthenticate
      */
     public function __construct(ComponentRegistry $registry, $config)
     {
-    pr($config);die;
+
         $this->config([
             'fields' => [
                 'provider' => 'provider',
