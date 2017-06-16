@@ -1,5 +1,5 @@
 <?php
-namespace Integrateideas/User\Auth;
+namespace Integrateideas\User\Auth;
 
 use Cake\Auth\BaseAuthenticate;
 use Cake\Controller\ComponentRegistry;
