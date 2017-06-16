@@ -36,7 +36,7 @@ class UsersController extends AppController
             throw new BadRequestException(__('Field {0} does not exist in Users Table.', $field));
           }
         }
-        $users = $this->Users->find()->where($query)->all();
+        $users = $this->Users->find()->where($query)->contain(['Roles'])->all();
 
         $loggedInUser = $this->Auth->user();
         $indexEvent = $this->Events->fireEvent('users.index', $users);

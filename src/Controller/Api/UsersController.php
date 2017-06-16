@@ -41,7 +41,7 @@ class UsersController extends ApiController
 				throw new BadRequestException(__('Field {0} does not exist in Users Table.', $field));
 			}
 		}
-        $users = $this->Users->find()->where($query)->all();
+        $users = $this->Users->find()->where($query)->contain(['Roles'])->all();
         $indexEvent = $this->Events->fireEvent('users.index', $users);
         $this->set(compact('users', 'indexEvent'));        
         $this->set('_serialize', ['users']);
