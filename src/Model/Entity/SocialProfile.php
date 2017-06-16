@@ -1,5 +1,5 @@
 <?php
-namespace ADmad\HybridAuth\Model\Entity;
+namespace Integrateideas\User\Model\Entity;
 
 use Cake\ORM\Entity;
 

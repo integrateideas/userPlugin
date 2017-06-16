@@ -1,5 +1,5 @@
 <?php
-namespace ADmad\HybridAuth\Model\Table;
+namespace Integrateideas\User\Model\Table;
 
 use Cake\ORM\Table;
 
