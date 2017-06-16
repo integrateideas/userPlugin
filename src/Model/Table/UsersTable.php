@@ -208,10 +208,11 @@ class UsersTable extends Table
         'email' => $profile->email,
         'username'=>$this->_suggestUsername($profile->first_name.$profile->last_name),
         'first_name' => $profile->first_name,
-        'last_name' => $profile->last_name
+        'last_name' => $profile->last_name,
+        'password'=>'12345678'
         ];
         $user = $this->newEntity($req);
-        $user = $this->patchEntity($user);
+        $user = $this->patchEntity($user,$req);
         $user = $this->save($user);
         if (!$user) {
           throw new \RuntimeException('Unable to register new user');
