@@ -98,7 +98,7 @@ class HybridAuthAuthenticate extends BaseAuthenticate
         }
 
         $this->_userModel = TableRegistry::get($this->_config['userModel']);
-        // $this->_profileModel = TableRegistry::get($this->_config['profileModel']);
+        $this->_profileModel = TableRegistry::get($this->_config['profileModel']);
 
         $request->session()->start();
 
