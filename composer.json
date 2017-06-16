@@ -15,7 +15,7 @@
     "require": {
         "php": ">=5.5.9",
         "cakephp/cakephp": ">=3.3.2 <4.0.0",
-        "hybridauth/hybridauth" : "^2.9"
+        "hybridauth/hybridauth" : "~2.8"
     },
     "repositories": [{
 
