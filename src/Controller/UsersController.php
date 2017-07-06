@@ -90,7 +90,7 @@ class UsersController extends AppController
                 $data = ['addSaveEvent' => $addSaveEvent, 'user' => $user];
                 $this->Events->fireEvent('users.add.save', $data);
                 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect($this->referer());
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
@@ -128,7 +128,7 @@ class UsersController extends AppController
                 //User Save Event Data
                 $data = ['editSaveEvent' => $editSaveEvent, 'user' => $user];
                 $this->Events->fireEvent('users.edit.save', $data);
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect($this->referer());
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
