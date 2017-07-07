@@ -72,7 +72,7 @@ class UsersController extends AppController
         $addEnterEvent = $this->Events->fireEvent('users.add.enter', []);
         $user = $this->Users->newEntity();
         if ($this->request->is('post')) {
-            
+
             $this->request->data['username'] = $this->Users->getUsername($this->request->data);
             
             $addSaveEvent = false;
@@ -90,7 +90,11 @@ class UsersController extends AppController
                 $data = ['addSaveEvent' => $addSaveEvent, 'user' => $user];
                 $this->Events->fireEvent('users.add.save', $data);
                 
-                return $this->redirect($this->referer());
+                if(isset($this->request->data['redirectUrl']) && $this->request->data['redirectUrl']){
+                    return $this->redirect($this->request->data['redirectUrl']);
+                  }else{
+                    return $this->redirect(['action' => 'index']);
+                  }
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
@@ -128,7 +132,12 @@ class UsersController extends AppController
                 //User Save Event Data
                 $data = ['editSaveEvent' => $editSaveEvent, 'user' => $user];
                 $this->Events->fireEvent('users.edit.save', $data);
-                return $this->redirect($this->referer());
+                
+                if(isset($this->request->data['redirectUrl']) && $this->request->data['redirectUrl']){
+                    return $this->redirect($this->request->data['redirectUrl']);
+                  }else{
+                    return $this->redirect(['action' => 'index']);
+                  }
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
